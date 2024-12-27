@@ -1,0 +1,251 @@
+{
+	"info": {
+		"_postman_id": "245a4a32-068d-435a-ba3b-1d2f4409a72f",
+		"name": "Petstore Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "32291132"
+	},
+	"item": [
+		{
+			"name": "Create A New User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"The status code is 200\",function()\r",
+							"{\r",
+							"    pm.response.to.have.status(200);\r",
+							"})\r",
+							"\r",
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"// Retrieve the value of 'id'\r",
+							"let requestid=requestBody.id;\r",
+							"let requestusername =requestBody.username;\r",
+							"console.log(requestid)\r",
+							"console.log(requestusername)\r",
+							"pm.environment.set(\"username\",requestusername);\r",
+							"let responsebody=pm.response.json();\r",
+							"console.log(responsebody);\r",
+							"pm.collectionVariables.set(\"megha\",requestBody);\r",
+							"let responsemesage=responsebody.message;\r",
+							"console.log(responsemesage);\r",
+							"pm.test(\"Response body value match\",function()\r",
+							"{\r",
+							"    pm.expect(String(requestid)).eqls(responsemesage)\r",
+							"})"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{$randomInt}},\r\n  \"username\": \"{{$randomUserName}}\",\r\n  \"firstName\": \"{{$randomUserName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{$randomPassword}}\",\r\n  \"phone\": \"{{$randomPhoneNumber}}\",\r\n  \"userStatus\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/user",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"user"
+					]
+				},
+				"description": "To create down the user"
+			},
+			"response": []
+		},
+		{
+			"name": "Get User Details",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let ew=pm.collectionVariables.get(\"megha\");\r",
+							"console.log(ew);\r",
+							"pm.test(\"Response body verify\",function()\r",
+							"{\r",
+							"    pm.expect(ew).to.deep.equal(pm.response.json());\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				},
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/user/{{username}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}"
+					]
+				},
+				"description": "To get the user"
+			},
+			"response": []
+		},
+		{
+			"name": "Update a User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"let requestBody = JSON.parse(pm.request.body.raw);\r",
+							"\r",
+							"// Retrieve the value of 'id'\r",
+							"let requestid=requestBody.id;\r",
+							"let responsebody=pm.response.json();\r",
+							"console.log(responsebody);\r",
+							"let responsemesage=responsebody.message;\r",
+							"console.log(responsemesage);\r",
+							"pm.test(\"Response body value match\",function()\r",
+							"{\r",
+							"    pm.expect(String(requestid)).eqls(responsemesage)\r",
+							"})\r",
+							"\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"let requestusername =requestBody.username;\r",
+							"console.log(requestusername)\r",
+							"pm.environment.set(\"username\",requestusername);"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"id\": {{$randomInt}},\r\n  \"username\": \"{{$randomUserName}}\",\r\n  \"firstName\": \"{{$randomUserName}}\",\r\n  \"lastName\": \"{{$randomLastName}}\",\r\n  \"email\": \"{{$randomEmail}}\",\r\n  \"password\": \"{{$randomPassword}}\",\r\n  \"phone\": \"{{$randomPhoneNumber}}\",\r\n  \"userStatus\": 0\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{BaseUrl}}/user/{{username}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}"
+					]
+				},
+				"description": "To update the user"
+			},
+			"response": []
+		},
+		{
+			"name": "Delete a User",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"let responsebody=pm.response.json();\r",
+							"console.log(responsebody);\r",
+							"let responsemesage=responsebody.message;\r",
+							"console.log(responsemesage);\r",
+							"let wew=pm.environment.get(\"username\")\r",
+							"console.log(wew)\r",
+							"pm.test(\"Response body value match\",function()\r",
+							"{\r",
+							"    pm.expect(String(wew)).eqls(responsemesage)\r",
+							"})\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{BaseUrl}}/user/{{username}}",
+					"host": [
+						"{{BaseUrl}}"
+					],
+					"path": [
+						"user",
+						"{{username}}"
+					]
+				},
+				"description": "To delete the user"
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "megha",
+			"value": ""
+		}
+	]
+}
